@@ -11,11 +11,11 @@ import {
 } from 'lucide-react';
 
 interface SidebarProps {
-  isOpen: boolean;
+  isExpanded: boolean;
   onClose: () => void;
 }
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export default function Sidebar({ isExpanded, onClose }: SidebarProps) {
   const menuItems = [
     { icon: Home, label: 'Accueil', active: true },
     { icon: Calendar, label: 'Séances' },
@@ -29,19 +29,19 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden ${
-          isOpen ? 'block' : 'hidden'
+        className={`fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden ${
+          isExpanded ? 'block' : 'hidden'
         }`}
         onClick={onClose}
       ></div>
       
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 border-r border-gray-700 transform transition-transform duration-200 ease-in-out z-50 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0`}
+        className={`fixed top-0 left-0 h-full ${isExpanded ? 'w-64' : 'w-20'} bg-white border-r border-slate-300 transform transition-all duration-200 ease-in-out z-50 ${
+          isExpanded ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0`}
       >
-        <div className="flex justify-end p-4 lg:hidden">
-          <button onClick={onClose} className="p-2 hover:bg-gray-700 rounded-lg">
+        <div className="flex justify-end p-4 md:hidden">
+          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-lg text-slate-800">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -51,12 +51,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <a
               key={index}
               href="#"
-              className={`flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white ${
-                item.active ? 'bg-gray-700 text-white' : ''
-              }`}
+              className={`flex items-center py-3 text-slate-600 hover:bg-slate-100 hover:text-sky-600 ${
+                item.active ? 'bg-sky-50 text-sky-600' : ''
+              } ${isExpanded ? 'px-6' : 'px-4 justify-center'}`}
             >
-              <item.icon className="w-5 h-5" />
-              <span className="ml-3">{item.label}</span>
+              <item.icon className="w-5 h-5" /> {/* Icon color will inherit from text color */}
+              <span className={`ml-3 origin-left duration-200 ${isExpanded ? 'inline' : 'hidden'}`}>{item.label}</span>
             </a>
           ))}
         </nav>
